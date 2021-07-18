@@ -2,6 +2,7 @@ package com.spring.tacocloud.controller;
 
 import com.spring.tacocloud.bean.Ingredient;
 import com.spring.tacocloud.bean.Ingredient.Type;
+import com.spring.tacocloud.bean.Order;
 import com.spring.tacocloud.bean.Taco;
 import com.spring.tacocloud.service.IngredientService;
 import com.spring.tacocloud.service.TacoService;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Controller
 @RequestMapping("/design")
+@SessionAttributes("order")
 public class DesignTacoController {
     @Autowired
     IngredientService ingredientService;
@@ -38,6 +40,16 @@ public class DesignTacoController {
         }
     }
 
+    @ModelAttribute(name = "order")
+    public Order order() {
+        return new Order();
+    }
+
+    @ModelAttribute(name = "taco")
+    public Taco taco() {
+        return new Taco();
+    }
+
     //tag::showDesignForm[]
     @GetMapping
     public String showDesignForm(Model model) {
@@ -46,11 +58,12 @@ public class DesignTacoController {
     }
 
     @PostMapping()
-    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors) {
+    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, @ModelAttribute Order order) {
         if (errors.hasErrors()) {
             return "design";
         }
-//        log.info("Processing design : " + design);
+        Taco tacoSaved = tacoService.save(design);
+        order.addDesign(tacoSaved);
         log.info("Processing design : " + tacoService.save(design));
         return "redirect:/orders/current";
     }

@@ -24,7 +24,7 @@ public class TacoServiceImpl implements TacoService {
         taco.setCreatedAt(new Date());
         tacoMapper.insert(taco);
         for (Ingredient ingredient : taco.getIngredients()) {
-            System.out.println(ingredient);
+            tacoIngredientMapper.insert(taco.getId(), ingredient.getId());
         }
         return taco;
     }

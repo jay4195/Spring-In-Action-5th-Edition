@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.spring.tacocloud.mapper.TacoIngredientMapper">
+<mapper namespace="com.spring.tacocloud.mapper.TacoOrderTacosMapper">
     <!--    public Account getAcct(Long id); -->
-    <insert id = "insert">
-        insert into taco_ingredients(`taco`,`ingredient`) values (#{tacoId}, #{ingredientId})
+    <insert id = "saveTacoToOrder">
+        insert into taco_order_tacos(`taco_order`,`taco`) values (#{tacoOrderId}, #{tacoId})
     </insert>
 </mapper>

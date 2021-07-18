@@ -2,13 +2,20 @@ package com.spring.tacocloud.bean;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Entity;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
+@Entity
 public class Order {
     private Long id;
 
@@ -23,7 +30,7 @@ public class Order {
     @NotBlank(message = "City is required")
     private String city;
 
-    @NotBlank(message = "State is required")
+    @Length(min = 2, max = 2, message = "State initials length is 2")
     private String state;
 
     @NotBlank(message = "Zip code is required")
@@ -38,4 +45,15 @@ public class Order {
 
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
+
+    @ManyToMany(targetEntity = Taco.class)
+    private List<Taco> tacos = new ArrayList<>();
+
+    public void addDesign(Taco design) {
+        this.tacos.add(design);
+    }
+
+    public void placedAt() {
+        this.placedAt = new Date();
+    }
 }

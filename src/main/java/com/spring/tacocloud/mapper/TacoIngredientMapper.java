@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface TacoIngredientMapper {
-    public void insert(Taco taco, Ingredient ingredient);
+    public void insert(Long tacoId, String ingredientId);
 }
