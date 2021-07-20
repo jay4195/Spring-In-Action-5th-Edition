@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.tacocloud.mapper.TacoMapper">
+    <!--    public Account getAcct(Long id); -->
+<!--    <insert id = "insert" useGeneratedKeys="true" keyProperty="id">-->
+<!--        insert into taco(`name`,`created_at`) values (#{name}, #{createdAt})-->
+<!--    </insert>-->
+<!--    <select id="selectCurrentTacos" resultType="com.spring.tacocloud.bean.Taco">-->
+<!--        select taco.id, taco.name, taco.created_at, ingredient.id , ingredient.name, ingredient.type-->
+<!--                 from taco-->
+<!--                 left join taco_ingredients on taco_ingredients.taco = taco.id-->
+<!--                 left join ingredient on taco_ingredients.ingredient = ingredient.id order by taco.created_at desc-->
+<!--    </select>-->
+<!--    <resultMap id="userWithOrderMap" type="com.spring.tacocloud.bean.Taco">-->
+<!--        <id property="id" column="uid" />-->
+<!--        <result property="name" column="taco_name" />-->
+<!--        <result property="createdAt" column="created_at" />-->
+<!--        &lt;!&ndash; 此处的id其实是dept的id，相当于再通过dept的id查询与此关联的员工 &ndash;&gt;-->
+<!--        <collection property="emps" column="id" ofType="com.bdm.entities.Emp"-->
+<!--                    select="com.bdm.mappers.EmpMapper.getEmpByDeptId" />-->
+<!--    </resultMap>-->
+    <resultMap id="tacoMap" type="com.spring.tacocloud.bean.Taco">
+        <id property="id" column="taco_id" />
+        <result property="name" column="taco_name" />
+        <result property="createdAt" column="created_at" />
+    </resultMap>
+    <select id="selectTopTacos" resultMap="tacoMap">
+        select taco.id as taco_id, taco.name as taco_name, taco.created_at from taco
+            order by taco.created_at desc limit 12
+    </select>
+    <insert id = "saveTaco" useGeneratedKeys="true" keyProperty="id">
+        insert into taco(`name`,`created_at`) values (#{name}, #{createdAt})
+    </insert>
+</mapper>
